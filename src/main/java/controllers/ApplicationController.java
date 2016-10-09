@@ -26,14 +26,14 @@ import com.google.inject.Singleton;
 import ninja.Result;
 import ninja.Results;
 import ninja.params.PathParam;
-import processor.GrabFlightService;
+import processor.GrabAirAsiaService;
 
 
 @Singleton
 public class ApplicationController {
   
   @Inject
-  GrabFlightService grabFlightService;
+  GrabAirAsiaService grabFlightService;
 
   public Result index() {
     return Results.html();

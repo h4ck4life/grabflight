@@ -13,9 +13,9 @@ import org.jsoup.select.Elements;
 import com.google.inject.Inject;
 
 import ninja.utils.NinjaProperties;
-import processor.GrabFlightService;
+import processor.GrabAirAsiaService;
 
-public class GrabAirAsiaServiceImpl implements GrabFlightService {
+public class GrabAirAsiaServiceImpl implements GrabAirAsiaService {
 
   @Inject
   NinjaProperties ninjaProperties;
@@ -28,7 +28,8 @@ public class GrabAirAsiaServiceImpl implements GrabFlightService {
   public ArrayList<ArrayList<JSONObject>> getSchedulesbyMonthRange(String destFrom, String destTo,
       String dateFrom, String dateTo) throws IOException, JSONException {
 
-    String airAsiaScrapUrlMonthly = String.format(ninjaProperties.get("flight.scrap.airasia"), destFrom, destTo, dateFrom, dateTo);
+    String airAsiaScrapUrlMonthly = String.format(ninjaProperties.get("flight.scrap.airasia"),
+        destFrom, destTo, dateFrom, dateTo);
     String airAsiaBaseURL = ninjaProperties.get("flight.baseurl.airasia");
 
     Document doc = Jsoup.connect(airAsiaScrapUrlMonthly)
@@ -47,58 +48,59 @@ public class GrabAirAsiaServiceImpl implements GrabFlightService {
 
       // Get scheduleTimeRow
       Elements scheduleTimeRowEls = tripsEls.select("div.low-fare-cal-day");
-      for (Element scheduleTimeRow : scheduleTimeRowEls) {
+      if (scheduleTimeRowEls.size() > 0) {
+        for (Element scheduleTimeRow : scheduleTimeRowEls) {
 
-        JSONObject flightSchedule = new JSONObject();
+          JSONObject flightSchedule = new JSONObject();
 
-        String date = "";
-        String price = "";
-        String linkToPurchase = "";
+          String date = "";
+          String price = "";
+          String linkToPurchase = "";
 
-        // Get date
-        Elements dateRows = scheduleTimeRow.select("[type=radio]");
-        if (dateRows.size() > 0) {
-          date = dateRows.select("[type=radio]").get(0).attr("value");
-        } else {
-          // date = "No Flights";
+          // Get date
+          Elements dateRows = scheduleTimeRow.select("[type=radio]");
+          if (dateRows.size() > 0) {
+            date = dateRows.select("[type=radio]").get(0).attr("value");
+          } else {
+            // date = "No Flights";
+          }
+
+          // Get price
+          Elements priceRows = scheduleTimeRow.select("div.low-fare-cal-day-amount");
+          if (priceRows.size() > 0) {
+            price = priceRows.get(0).text().replaceAll(" MYR", "");
+          } else {
+            // price = "N/A";
+          }
+
+          // Get link to purchase
+          Elements linkToPurchaseRows = scheduleTimeRow.select("a[href]");
+          if (linkToPurchaseRows.size() > 0) {
+            linkToPurchase = linkToPurchaseRows.get(0).attr("href");
+          } else {
+            // linkToPurchase = "N/A";
+          }
+
+          if (!date.equals("") && !price.equals("") && !linkToPurchase.equals("")) {
+            flightSchedule.put("date", date);
+            flightSchedule.put("price", price);
+            flightSchedule.put("linkToPurchase", airAsiaBaseURL + linkToPurchase);
+            
+            flightSchedules.add(flightSchedule);
+          }
+
         }
 
-        // Get price
-        Elements priceRows = scheduleTimeRow.select("div.low-fare-cal-day-amount");
-        if (priceRows.size() > 0) {
-          price = priceRows.get(0).text().replaceAll(" MYR", "");
-        } else {
-          // price = "N/A";
-        }
-
-        // Get link to purchase
-        Elements linkToPurchaseRows = scheduleTimeRow.select("a[href]");
-        if (linkToPurchaseRows.size() > 0) {
-          linkToPurchase = linkToPurchaseRows.get(0).attr("href");
-        } else {
-          // linkToPurchase = "N/A";
-        }
-
-        if (!date.equals("") && !price.equals("") && !linkToPurchase.equals("")) {
-
-          flightSchedule.put("date", date);
-          flightSchedule.put("price", price);
-          flightSchedule.put("linkToPurchase", airAsiaBaseURL + linkToPurchase);
-
-          flightSchedules.add(flightSchedule);
-        }
+        flightTrips.add(flightSchedules);
 
       }
-      
-      flightTrips.add(flightSchedules);
 
     }
 
     // Add all JSONObjects to root
     flightDatas.addAll(flightTrips);
-    
-    //System.out.println(flightDatas.toString());
 
+    // System.out.println(flightDatas.toString());
     return flightDatas;
   }
 

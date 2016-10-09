@@ -17,7 +17,7 @@ package conf;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
-import processor.GrabFlightService;
+import processor.GrabAirAsiaService;
 import processor.impl.GrabAirAsiaServiceImpl;
 
 @Singleton
@@ -27,7 +27,7 @@ public class Module extends AbstractModule {
   protected void configure() {
 
     // bind your injections here!
-    bind(GrabFlightService.class).to(GrabAirAsiaServiceImpl.class);
+    bind(GrabAirAsiaService.class).to(GrabAirAsiaServiceImpl.class);
 
   }
 
