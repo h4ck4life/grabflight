@@ -31,7 +31,7 @@ import processor.GrabAirAsiaService;
 
 @Singleton
 public class ApplicationController {
-  
+
   @Inject
   GrabAirAsiaService grabFlightService;
 
@@ -41,13 +41,21 @@ public class ApplicationController {
 
   public Result getFlightMonthly(@PathParam("destFrom") String destFrom,
       @PathParam("destTo") String destTo, @PathParam("dateFrom") String dateFrom,
-      @PathParam("dateTo") String dateTo) throws IOException, JSONException {
+      @PathParam("dateTo") String dateTo, @PathParam("flight") String flight)
+      throws IOException, JSONException {
 
-    ArrayList<ArrayList<JSONObject>> flightResults = grabFlightService.getSchedulesbyMonthRange(destFrom, destTo, dateFrom, dateTo);
-    
     Result result = Results.text();
-    result.render(flightResults);
-    
+    JSONObject resp = new JSONObject();
+
+    if (flight.equalsIgnoreCase("airasia")) {
+      JSONObject flightResults =
+          grabFlightService.getSchedulesbyMonthRange(destFrom, destTo, dateFrom, dateTo);
+      result.render(flightResults);
+    } else {
+      resp.put("error", "flight type not recognized");
+      result.render(resp);
+    }
+
     return result;
   }
 

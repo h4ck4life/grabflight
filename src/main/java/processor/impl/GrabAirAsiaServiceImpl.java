@@ -25,8 +25,8 @@ public class GrabAirAsiaServiceImpl implements GrabAirAsiaService {
   }
 
   @Override
-  public ArrayList<ArrayList<JSONObject>> getSchedulesbyMonthRange(String destFrom, String destTo,
-      String dateFrom, String dateTo) throws IOException, JSONException {
+  public JSONObject getSchedulesbyMonthRange(String destFrom, String destTo, String dateFrom,
+      String dateTo) throws IOException, JSONException {
 
     String airAsiaScrapUrlMonthly = String.format(ninjaProperties.get("flight.scrap.airasia"),
         destFrom, destTo, dateFrom, dateTo);
@@ -38,8 +38,9 @@ public class GrabAirAsiaServiceImpl implements GrabAirAsiaService {
         .timeout(10000).get();
 
 
-    ArrayList<ArrayList<JSONObject>> flightDatas = new ArrayList<>();
-    ArrayList<ArrayList<JSONObject>> flightTrips = new ArrayList<>();
+    JSONObject flightDatasRoot = new JSONObject();
+    ArrayList<JSONObject> flightDatas = new ArrayList<>();
+    ArrayList<JSONObject> flightTrips = new ArrayList<>();
     ArrayList<JSONObject> flightSchedules = new ArrayList<>();
 
     // Get departure & return scehdule + fares
@@ -85,13 +86,20 @@ public class GrabAirAsiaServiceImpl implements GrabAirAsiaService {
             flightSchedule.put("date", date);
             flightSchedule.put("price", price);
             flightSchedule.put("linkToPurchase", airAsiaBaseURL + linkToPurchase);
-            
+
             flightSchedules.add(flightSchedule);
           }
 
         }
 
-        flightTrips.add(flightSchedules);
+        JSONObject flightScheduleRoot = new JSONObject();
+        if (tripsEls.parent().elementSiblingIndex() == 1) {
+          flightScheduleRoot.put("departure", flightSchedules);
+        }
+        if (tripsEls.parent().elementSiblingIndex() == 2) {
+          flightScheduleRoot.put("return", flightSchedules);
+        }
+        flightTrips.add(flightScheduleRoot);
 
       }
 
@@ -101,7 +109,14 @@ public class GrabAirAsiaServiceImpl implements GrabAirAsiaService {
     flightDatas.addAll(flightTrips);
 
     // System.out.println(flightDatas.toString());
-    return flightDatas;
+
+    flightDatasRoot.put("locationFrom", destFrom);
+    flightDatasRoot.put("LocationTo", destTo);
+    flightDatasRoot.put("dateFrom", dateFrom);
+    flightDatasRoot.put("dateTo", dateTo);
+    flightDatasRoot.put("schedules", flightDatas);
+
+    return flightDatasRoot;
   }
 
 }

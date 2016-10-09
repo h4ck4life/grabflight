@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 public interface GrabAirAsiaService {
 
-  public ArrayList<ArrayList<JSONObject>> getSchedulesbyMonthRange(String destFrom, String destTo,
-      String dateFrom, String dateTo) throws IOException, JSONException;
+  public JSONObject getSchedulesbyMonthRange(String destFrom, String destTo, String dateFrom,
+      String dateTo) throws IOException, JSONException;
 
 }
