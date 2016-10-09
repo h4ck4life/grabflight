@@ -1,9 +1,12 @@
-<#import "../layout/defaultLayout.ftl.html" as layout> 
-<@layout.myLayout "Home page">    
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "GrabFlight">
 
-
-<h1>${i18n("hello.world")}</h1>
-<p>${i18n("hello.world.json")}</p>
-<a href="/hello_world.json">Hello World Json</a>
+<div class="jumbotron">
+	<h1>Select your trip</h1>
+	<div class="form-group">
+		<label class="control-label" for="focusedInput">Focused input</label>
+		<input class="form-control" id="focusedInput" type="text" placeholder="">
+	</div>
+</div>
 
 </@layout.myLayout>

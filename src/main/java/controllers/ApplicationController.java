@@ -15,7 +15,6 @@
 package controllers;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,12 +24,16 @@ import com.google.inject.Singleton;
 
 import ninja.Result;
 import ninja.Results;
+import ninja.cache.NinjaCache;
 import ninja.params.PathParam;
 import processor.GrabAirAsiaService;
 
 
 @Singleton
 public class ApplicationController {
+
+  @Inject
+  NinjaCache ninjaCache;
 
   @Inject
   GrabAirAsiaService grabFlightService;
@@ -48,9 +51,15 @@ public class ApplicationController {
     JSONObject resp = new JSONObject();
 
     if (flight.equalsIgnoreCase("airasia")) {
-      JSONObject flightResults =
-          grabFlightService.getSchedulesbyMonthRange(destFrom, destTo, dateFrom, dateTo);
-      result.render(flightResults);
+      String cacheResponse = (String) ninjaCache.get(destFrom + destTo + dateFrom);
+      if (null == cacheResponse) {
+        JSONObject flightResults =
+            grabFlightService.getSchedulesbyMonthRange(destFrom, destTo, dateFrom, dateTo);
+        ninjaCache.set(destFrom + destTo + dateFrom, flightResults.toString());
+        result.render(flightResults);
+      } else {
+        result.render(cacheResponse);
+      }
     } else {
       resp.put("error", "flight type not recognized");
       result.render(resp);
