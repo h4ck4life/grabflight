@@ -51,11 +51,11 @@ public class ApplicationController {
     JSONObject resp = new JSONObject();
 
     if (flight.equalsIgnoreCase("airasia")) {
-      String cacheResponse = (String) ninjaCache.get(destFrom + destTo + dateFrom);
+      String cacheResponse = (String) ninjaCache.get(destFrom + destTo + dateFrom + dateTo);
       if (null == cacheResponse) {
         JSONObject flightResults =
             grabFlightService.getSchedulesbyMonthRange(destFrom, destTo, dateFrom, dateTo);
-        ninjaCache.set(destFrom + destTo + dateFrom, flightResults.toString());
+        ninjaCache.set(destFrom + destTo + dateFrom + dateTo, flightResults.toString());
         result.render(flightResults);
       } else {
         result.render(cacheResponse);
