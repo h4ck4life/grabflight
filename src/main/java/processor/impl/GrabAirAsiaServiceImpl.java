@@ -1,6 +1,8 @@
 package processor.impl;
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 
 import org.json.JSONException;
@@ -12,10 +14,16 @@ import org.jsoup.select.Elements;
 
 import com.google.inject.Inject;
 
+import controllers.ApplicationController;
 import ninja.utils.NinjaProperties;
 import processor.GrabAirAsiaService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class GrabAirAsiaServiceImpl implements GrabAirAsiaService {
+  
+  final static Logger logger = LoggerFactory.getLogger("com.filavents.grabflight");
 
   @Inject
   NinjaProperties ninjaProperties;
@@ -34,8 +42,9 @@ public class GrabAirAsiaServiceImpl implements GrabAirAsiaService {
 
     Document doc = Jsoup.connect(airAsiaScrapUrlMonthly)
         .userAgent(
-            "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36")
-        .timeout(10000).get();
+            "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36 "
+                + (new BigInteger(130, new SecureRandom()).toString(32)))
+        .timeout(120000).get();
 
 
     JSONObject flightDatasRoot = new JSONObject();
@@ -115,7 +124,7 @@ public class GrabAirAsiaServiceImpl implements GrabAirAsiaService {
     flightDatasRoot.put("dateFrom", dateFrom);
     flightDatasRoot.put("dateTo", dateTo);
     flightDatasRoot.put("schedules", flightDatas);
-
+    
     return flightDatasRoot;
   }
 
