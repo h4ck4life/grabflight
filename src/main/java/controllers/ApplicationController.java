@@ -61,9 +61,19 @@ public class ApplicationController {
       @PathParam("destTo") String destTo, @PathParam("dateFrom") String dateFrom,
       @PathParam("dateTo") String dateTo, @PathParam("flight") String flight, Context ctx)
       throws IOException, JSONException {
-
+    
     Result result = Results.text();
     JSONObject resp = new JSONObject();
+    
+    // Verify API caller origin
+    if (!ctx.getHostname().equalsIgnoreCase("localhost:8080")
+        && !ctx.getHostname().equalsIgnoreCase("grabflight.filavents.com")) {
+      logger.error(ctx.getRequestPath() + " - not authorized api call from: " + ctx.getHostname());
+      resp.put("error", "Not authorized. Please contact alifaziz@gmail.com if you insist");
+      result.status(500);
+      result.render(resp);
+      return result;
+    }
 
     if (flight.equalsIgnoreCase("airasia")) {
 
@@ -92,6 +102,7 @@ public class ApplicationController {
     } else {
       logger.error(ctx.getRequestPath() + " - flight type not recognized");
       resp.put("error", "flight type not recognized");
+      result.status(500);
       result.render(resp);
     }
 
