@@ -64,15 +64,26 @@ public class ApplicationController {
     JSONObject resp = new JSONObject();
 
     if (flight.equalsIgnoreCase("airasia")) {
+      
       String cacheResponse = (String) ninjaCache.get(destFrom + destTo + dateFrom + dateTo);
       if (null == cacheResponse) {
+        
         JSONObject flightResults =
             grabFlightService.getSchedulesbyMonthRange(destFrom, destTo, dateFrom, dateTo);
-        ninjaCache.set(destFrom + destTo + dateFrom + dateTo, flightResults.toString());
+        
+        // if got schedules then only cache, otherwise dont!
+        if (flightResults.getJSONArray("schedules").length() > 0) {
+          ninjaCache.set(destFrom + destTo + dateFrom + dateTo, flightResults.toString());
+        }
+        
         logger.debug(ctx.getRequestPath() + " - " + flightResults.toString());
+        
         result.render(flightResults);
+        
       } else {
+        
         result.render(cacheResponse);
+        
       }
     } else {
       logger.error(ctx.getRequestPath() + " - flight type not recognized");
