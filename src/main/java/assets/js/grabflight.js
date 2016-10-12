@@ -82,7 +82,11 @@ $.ajax({
                 	culling: false,
                 	fit: true,
                 	rotate: 55,
-                    format: '%Y-%m-%d'
+                    //format: '%Y-%m-%d'
+                	format: function (tripDate) { 
+                    	var formatDate = moment(tripDate, "YYYY-MM-DD");
+                    	return formatDate.format('DD MMM YYYY');
+                	}
                 }
             }
         }
@@ -132,7 +136,11 @@ $.ajax({
                 	culling: false,
                 	fit: true,
                 	rotate: 55,
-                    format: '%Y-%m-%d'
+                    //format: '%Y-%m-%d'
+                	format: function (tripDate) { 
+                    	var formatDate = moment(tripDate, "YYYY-MM-DD");
+                    	return formatDate.format('DD MMM YYYY');
+                	}
                 }
             }
         }
