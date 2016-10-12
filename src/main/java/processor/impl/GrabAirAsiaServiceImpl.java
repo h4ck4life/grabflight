@@ -11,15 +11,13 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-import controllers.ApplicationController;
 import ninja.utils.NinjaProperties;
 import processor.GrabAirAsiaService;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GrabAirAsiaServiceImpl implements GrabAirAsiaService {
   
