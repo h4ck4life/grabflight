@@ -39,6 +39,9 @@ $.ajax({
     // ##### DEPARTURE #####
     var chartDepart = c3.generate({
     	bindto: '#chart-depart',
+    	color: {
+            pattern: ['#1CA33B']
+        },
     	data: {
             x: 'x',
             //xFormat: '%Y%m%d', // 'xFormat' can be used as custom format of 'x'
