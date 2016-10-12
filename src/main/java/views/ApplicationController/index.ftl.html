@@ -13,15 +13,24 @@
 <p><i class="fa fa-circle-o-notch fa-3x fa-spin" aria-hidden="true"></i></p>
 <p>Please wait..</p>
 </div>
+
+<div id="preload-error" class="text-center" style="display: none;">
+<p><i class="fa fa-meh-o fa-5x" aria-hidden="true"></i></p>
+<h3>Oops, something went wrong!</h3>
+<h3>We're sorry. Please refresh the page</h3>
+</div>
+
 <div id="chart-depart"></div>
+
 <div id="chart-return"></div>
 
 <script type="text/javascript">
-var gYear = '${year}';
-var gMonth = '${month}';
-var gDestFrom = '${destFrom}';
-var gDestTo = '${destTo}';
-var getDestinationsByGetUrl = "/"+ gDestFrom +"/"+ gDestTo +"/"+ gYear +"-"+ gMonth +"-01/"+ gYear +"-"+ gMonth +"-31/airasia.json";
+var gFlight  	= '${flight}';
+var gDestFrom 	= '${destFrom}';
+var gDestTo 	= '${destTo}';
+var gDateFrom 	= '${dateFrom}';
+var gDateTo 	= '${dateTo}';
+var getDestinationsByGetUrl = "/api/"+ gDestFrom +"/"+ gDestTo +"/"+ gDateFrom +"/"+ gDateTo +"/"+ gFlight +".json";
 </script>
 
 </@layout.myLayout>

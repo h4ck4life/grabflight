@@ -37,6 +37,8 @@ public class GrabAirAsiaServiceImpl implements GrabAirAsiaService {
     String airAsiaScrapUrlMonthly = String.format(ninjaProperties.get("flight.scrap.airasia"),
         destFrom, destTo, dateFrom, dateTo);
     String airAsiaBaseURL = ninjaProperties.get("flight.baseurl.airasia");
+    
+    System.out.println(airAsiaScrapUrlMonthly);
 
     Document doc = Jsoup.connect(airAsiaScrapUrlMonthly)
         .userAgent(

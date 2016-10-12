@@ -34,9 +34,8 @@ import processor.GrabAirAsiaService;
 
 @Singleton
 public class ApplicationController {
-  
-  final static Logger logger = LoggerFactory.getLogger("com.filavents.grabflight");
 
+  final static Logger logger = LoggerFactory.getLogger("com.filavents.grabflight");
 
   @Inject
   NinjaCache ninjaCache;
@@ -44,14 +43,17 @@ public class ApplicationController {
   @Inject
   GrabAirAsiaService grabFlightService;
 
-  public Result index(@PathParam("year") String year, @PathParam("month") String month, @PathParam("destFrom") String destFrom, @PathParam("destTo") String destTo) {
-    
+  public Result index(@PathParam("flight") String flight, @PathParam("destFrom") String destFrom,
+      @PathParam("destTo") String destTo, @PathParam("dateFrom") String dateFrom,
+      @PathParam("dateTo") String dateTo) {
+
     Result result = Results.html();
-    result.render("year", year);
-    result.render("month", month);
-    result.render("destFrom", destFrom);
-    result.render("destTo", destTo);
-    
+    result.render("flight", flight);
+    result.render("destFrom", destFrom.toUpperCase());
+    result.render("destTo", destTo.toUpperCase());
+    result.render("dateFrom", dateFrom);
+    result.render("dateTo", dateTo);
+
     return result;
   }
 
@@ -64,26 +66,28 @@ public class ApplicationController {
     JSONObject resp = new JSONObject();
 
     if (flight.equalsIgnoreCase("airasia")) {
-      
+
       String cacheResponse = (String) ninjaCache.get(destFrom + destTo + dateFrom + dateTo);
       if (null == cacheResponse) {
-        
+
         JSONObject flightResults =
             grabFlightService.getSchedulesbyMonthRange(destFrom, destTo, dateFrom, dateTo);
-        
+
         // if got schedules then only cache, otherwise dont!
-        if (flightResults.getJSONArray("schedules").length() > 0) {
+        if (flightResults.getJSONArray("schedules").length() > 0
+            || flightResults.getJSONArray("schedules").getJSONArray(0).length() > 0
+            || flightResults.getJSONArray("schedules").getJSONArray(1).length() > 0) {
           ninjaCache.set(destFrom + destTo + dateFrom + dateTo, flightResults.toString());
         }
-        
+
         logger.debug(ctx.getRequestPath() + " - " + flightResults.toString());
-        
+
         result.render(flightResults);
-        
+
       } else {
-        
+
         result.render(cacheResponse);
-        
+
       }
     } else {
       logger.error(ctx.getRequestPath() + " - flight type not recognized");

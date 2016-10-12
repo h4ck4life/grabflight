@@ -151,7 +151,8 @@ $.ajax({
   },
   error: function(xhr, textStatus, errorThrown){
 	  $('#preload-view').hide();
-      alert('Oops, something is wrong. We are sorry. Please try again..');
+      //alert('Oops, something is wrong. We are sorry. Please try again..');
+	  $('#preload-error').show();
   }
 });
 
