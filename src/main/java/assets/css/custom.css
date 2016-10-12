@@ -1,3 +1,11 @@
 /* Add additional stylesheets below
 -------------------------------------------------- */
 
+#chart .c3-line-data2 {
+  stroke-width: 3px;
+}
+
+.c3 .c3-axis path, .c3 .c3-axis line {
+  color: red;
+}
+

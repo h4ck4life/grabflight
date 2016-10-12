@@ -1,0 +1,139 @@
+
+var departurePrice = [];
+var returnPrice = [];
+var departTripDateTimeline = [];
+var returnTripDateTimeline = [];
+
+departurePrice.push('Departure');
+returnPrice.push('Return');
+departTripDateTimeline.push('x');
+returnTripDateTimeline.push('x');
+
+$.ajax({
+  type: "GET",
+  url: "/KUL/MEL/2016-10-01/2016-10-31/airasia.json",
+  dataType: "json",
+  success: function (response) {
+	console.log('Trips: ' + response.schedules.length);
+    for (var index = 0; index < response.schedules.length; index++) {
+    	  var element = response.schedules[index];
+    	  // get departure price
+    	  if(index === 0) {
+    		  console.log('Departure length: ' + element.departure.length)
+    		  for (var i = 0; i < element.departure.length; i++) {
+    			  departurePrice.push(element.departure[i].price);
+        		  departTripDateTimeline.push(element.departure[i].date);
+    		  }
+    	  }
+    	  // get return price
+    	  if(index === 1) {
+    		  console.log('Return length: ' + element.return.length);
+    		  for (var i = 0; i < element.return.length; i++) {
+    			  returnPrice.push(element.return[i].price);
+    			  returnTripDateTimeline.push(element.return[i].date);
+    		  }
+    	  }
+	}
+    
+    // ##### DEPARTURE #####
+    var chartDepart = c3.generate({
+    	bindto: '#chart-depart',
+    	data: {
+            x: 'x',
+            //xFormat: '%Y%m%d', // 'xFormat' can be used as custom format of 'x'
+            columns: [
+            	departTripDateTimeline,
+                departurePrice
+            ],
+            type: 'spline'
+        },
+        tooltip: {
+            format: {
+                value: function(value) {
+                    return 'RM ' + value.toFixed(2);
+                },
+                title: function (tripDate) { 
+                	var formatDate = moment(tripDate, "YYYY-MM-DD");
+                	return formatDate.format('DD MMM YYYY');
+            	}
+            }  
+        },
+        axis: {
+            y: {
+                label: {
+                    text: 'Ticket Price',
+                    position: 'outer-center'
+                },
+                tick : {
+                    format: function (d) { return  "RM " + d ; }
+                }
+            },
+            x: {
+                label: {
+                    text: response.locationFrom + ' - ' + response.LocationTo,
+                    position: 'inner-right'
+                },
+                type: 'timeseries',
+                tick: {
+                	culling: false,
+                	fit: true,
+                	rotate: 55,
+                    format: '%Y-%m-%d'
+                }
+            }
+        }
+    });
+    
+    
+    // ##### RETURN #####
+    var chartReturn = c3.generate({
+    	bindto: '#chart-return',
+    	data: {
+            x: 'x',
+            //xFormat: '%Y%m%d', // 'xFormat' can be used as custom format of 'x'
+            columns: [
+            	returnTripDateTimeline,
+            	returnPrice
+            ],
+            type: 'spline'
+        },
+        tooltip: {
+            format: {
+                value: function(value) {
+                    return 'RM ' + value.toFixed(2);
+                },
+                title: function (tripDate) { 
+                	var formatDate = moment(tripDate, "YYYY-MM-DD");
+                	return formatDate.format('DD MMM YYYY');
+            	}
+            }
+        },
+        axis: {
+            y: {
+                label: {
+                    text: 'Ticket Price',
+                    position: 'outer-center'
+                },
+                tick : {
+                    format: function (d) { return  "RM " + d ; }
+                }
+            },
+            x: {
+                label: {
+                    text: response.LocationTo + ' - ' + response.locationFrom,
+                    position: 'inner-right'
+                },
+                type: 'timeseries',
+                tick: {
+                	culling: false,
+                	fit: true,
+                	rotate: 55,
+                    format: '%Y-%m-%d'
+                }
+            }
+        }
+    });
+    
+  }
+});
+

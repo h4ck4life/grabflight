@@ -107,6 +107,9 @@ public class GrabAirAsiaServiceImpl implements GrabAirAsiaService {
           flightScheduleRoot.put("return", flightSchedules);
         }
         flightTrips.add(flightScheduleRoot);
+        
+        // clear flight schedules!
+        flightSchedules.clear();
 
       }
 
