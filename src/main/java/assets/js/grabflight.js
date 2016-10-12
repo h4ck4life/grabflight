@@ -22,7 +22,7 @@ $.ajax({
     	  if(index === 0) {
     		  console.log('Departure length: ' + element.departure.length)
     		  for (var i = 0; i < element.departure.length; i++) {
-    			  departurePrice.push(element.departure[i].price);
+    			  departurePrice.push(element.departure[i].price.replace(/[^0-9\.]/g, ''));
         		  departTripDateTimeline.push(element.departure[i].date);
     		  }
     	  }
@@ -30,7 +30,7 @@ $.ajax({
     	  if(index === 1) {
     		  console.log('Return length: ' + element.return.length);
     		  for (var i = 0; i < element.return.length; i++) {
-    			  returnPrice.push(element.return[i].price);
+    			  returnPrice.push(element.return[i].price.replace(/[^0-9\.]/g, ''));
     			  returnTripDateTimeline.push(element.return[i].date);
     		  }
     	  }
