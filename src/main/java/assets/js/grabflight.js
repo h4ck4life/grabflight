@@ -11,7 +11,8 @@ returnTripDateTimeline.push('x');
 
 $.ajax({
   type: "GET",
-  url: "/KUL/MEL/2016-10-01/2016-10-31/airasia.json",
+  //url: "/KUL/MEL/2016-10-01/2016-10-31/airasia.json",
+  url: getDestinationsByGetUrl,
   dataType: "json",
   success: function (response) {
 	console.log('Trips: ' + response.schedules.length);
