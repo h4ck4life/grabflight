@@ -65,15 +65,18 @@ public class ApplicationController {
     Result result = Results.text();
     JSONObject resp = new JSONObject();
     
+    System.out.println(ctx.getRemoteAddr());
+    System.out.println(ctx.getHeader("Referer"));
+    
     // Verify API caller origin
-    if (!ctx.getHostname().equalsIgnoreCase("localhost:8080")
+    /*if (!ctx.getHostname().equalsIgnoreCase("localhost:8080")
         && !ctx.getHostname().equalsIgnoreCase("grabflight.filavents.com")) {
       logger.error(ctx.getRequestPath() + " - not authorized api call from: " + ctx.getHostname());
       resp.put("error", "Not authorized. Please contact alifaziz@gmail.com if you insist");
       result.status(500);
       result.render(resp);
       return result;
-    }
+    }*/
 
     if (flight.equalsIgnoreCase("airasia")) {
 
