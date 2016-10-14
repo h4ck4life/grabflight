@@ -129,6 +129,36 @@
           </filters>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>com.samaxes.maven</groupId>
+        <artifactId>minify-maven-plugin</artifactId>
+        <version>1.7.4</version>
+        <executions>
+          <execution>
+            <id>default-minify</id>
+            <goals>
+              <goal>minify</goal>
+            </goals>
+            <configuration>
+              <charset>UTF-8</charset>
+              <skipMerge>true</skipMerge>
+              <jsEngine>CLOSURE</jsEngine>
+              <closureCompilationLevel>SIMPLE_OPTIMIZATIONS</closureCompilationLevel>
+              <closureLanguage>ECMASCRIPT5</closureLanguage>
+              <webappSourceDir>${basedir}/src/main/java</webappSourceDir>
+              <webappTargetDir>${basedir}/src/main/java</webappTargetDir>
+              <jsSourceDir>assets/js</jsSourceDir>
+              <jsSourceFiles>
+                <jsSourceFile>grabflight.js</jsSourceFile>
+              </jsSourceFiles>
+              <cssSourceDir>assets/css</cssSourceDir>
+              <cssSourceFiles>
+                <cssSourceFile>custom.css</cssSourceFile>
+              </cssSourceFiles>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <dependencies>

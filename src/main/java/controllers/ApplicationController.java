@@ -65,9 +65,6 @@ public class ApplicationController {
     Result result = Results.text();
     JSONObject resp = new JSONObject();
     
-    System.out.println(ctx.getRemoteAddr());
-    System.out.println(ctx.getHeader("Referer"));
-    
     // Verify API caller origin
     /*if (!ctx.getHostname().equalsIgnoreCase("localhost:8080")
         && !ctx.getHostname().equalsIgnoreCase("grabflight.filavents.com")) {
