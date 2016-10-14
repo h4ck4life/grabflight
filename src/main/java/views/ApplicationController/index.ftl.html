@@ -7,7 +7,7 @@
 <p><a class="btn btn-primary btn-lg">Coming soon..</a><span class="label label-default">Coming soon..</span></p>
  -->
 
-<div class="panel panel-default row">
+<!-- <div class="panel panel-default row">
 	<div class="panel-body col-lg-8">
 		<select class="form-control col-lg-2 dest" id="destfrom">
 			<option value="" selected="selected" disabled="disabled">From..</option>
@@ -32,9 +32,9 @@
 			<option>4</option>
 			<option>5</option>
 		</select>
-		<!-- <div class="col-lg-2 dest"><a href="#" class="btn btn-primary">Book Now</a></div> -->
+		<div class="col-lg-2 dest"><a href="#" class="btn btn-primary">Book Now</a></div>
 	</div>
-</div>
+</div> -->
 
 <div id="preload-view" class="text-center">
 <h1>${destFrom} <i class="fa fa-arrows-h" aria-hidden="true"></i> ${destTo}</h1>
@@ -50,13 +50,19 @@
 </div>
 
 <div class="panel panel-default panel-chart">
-	<div id="chart-depart"></div>
+	<div class="panel-heading">Depart Flight</div>
+	<div class="panel-chart-content">
+		<div id="chart-depart"></div>
+	</div>
 </div>
 <div class="panel panel-default panel-chart">
-	<div id="chart-return"></div>
+	<div class="panel-heading">Return Flight</div>
+	<div class="panel-chart-content">
+		<div id="chart-return"></div>
+	</div>
 </div>
 
-<script type="text/javascript">
+	<script type="text/javascript">
 var gFlight  	= '${flight}';
 var gDestFrom 	= '${destFrom}';
 var gDestTo 	= '${destTo}';
@@ -65,4 +71,4 @@ var gDateTo 	= '${dateTo}';
 var getDestinationsByGetUrl = "/api/"+ gDestFrom +"/"+ gDestTo +"/"+ gDateFrom +"/"+ gDateTo +"/"+ gFlight +".json";
 </script>
 
-</@layout.myLayout>
+	</@layout.myLayout>

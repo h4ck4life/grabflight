@@ -43,6 +43,9 @@ $.ajax({
     	color: {
             pattern: ['#1CA33B']
         },
+        legend: {
+            show: false
+        },
     	data: {
             x: 'x',
             //xFormat: '%Y%m%d', // 'xFormat' can be used as custom format of 'x'
@@ -97,6 +100,9 @@ $.ajax({
     // ##### RETURN #####
     var chartReturn = c3.generate({
     	bindto: '#chart-return',
+    	legend: {
+            show: false
+        },
     	data: {
             x: 'x',
             //xFormat: '%Y%m%d', // 'xFormat' can be used as custom format of 'x'

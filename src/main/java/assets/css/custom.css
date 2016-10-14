@@ -10,8 +10,11 @@
 }
 
 .panel-chart {
-	padding: 10px;
 	display: none;
+}
+
+.panel-chart-content {
+	padding: 10px;
 }
 
 .dest {
