@@ -1,12 +1,20 @@
 /* Add additional stylesheets below
 -------------------------------------------------- */
+img {
+	user-drag: none;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+}
 
 #chart .c3-line-data2 {
-  stroke-width: 3px;
+	stroke-width: 3px;
 }
 
 .c3 .c3-axis path, .c3 .c3-axis line {
-  color: red;
+	color: red;
 }
 
 .panel-chart {
@@ -21,4 +29,3 @@
 	width: 30%;
 	margin-right: 10px;
 }
-
