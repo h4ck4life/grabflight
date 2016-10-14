@@ -46,6 +46,11 @@ $.ajax({
         legend: {
             show: false
         },
+        grid: {
+            x: {
+                lines: [{value: gDateFrom}]
+            }
+        },
     	data: {
             x: 'x',
             //xFormat: '%Y%m%d', // 'xFormat' can be used as custom format of 'x'
@@ -102,6 +107,11 @@ $.ajax({
     	bindto: '#chart-return',
     	legend: {
             show: false
+        },
+        grid: {
+            x: {
+                lines: [{value: gDateTo}]
+            }
         },
     	data: {
             x: 'x',
