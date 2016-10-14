@@ -1,74 +1,17 @@
 <#import "../layout/defaultLayout.ftl.html" as layout> 
-<@layout.myLayout "GrabFlight">    
+<@layout.myLayout "GrabFlight">
 
 
-<!-- <h1><i class="fa fa-plane" aria-hidden="true"></i> GrabFlight</h1>
-<p>Simple flight ticket price notification</p>
-<p><a class="btn btn-primary btn-lg">Coming soon..</a><span class="label label-default">Coming soon..</span></p>
- -->
-
-<!-- <div class="panel panel-default row">
-	<div class="panel-body col-lg-8">
-		<select class="form-control col-lg-2 dest" id="destfrom">
-			<option value="" selected="selected" disabled="disabled">From..</option>
-			<option value="KUL">Kuala Lumpur</option>
-			<option>2</option>
-			<option>3</option>
-			<option>4</option>
-			<option>5</option>
-		</select>
-		<select class="form-control col-lg-2 dest" id="destto">
-			<option value="" selected="selected" disabled="disabled">To..</option>
-			<option value="AOR">Alor Setar</option>
-			<option>3</option>
-			<option>4</option>
-			<option>5</option>
-		</select>
-		<select class="form-control col-lg-2 dest" id="adultqty">
-			<option value="" selected="selected" disabled="disabled">Adult..</option>
-			<option value="">1</option>
-			<option>2</option>
-			<option>3</option>
-			<option>4</option>
-			<option>5</option>
-		</select>
-		<div class="col-lg-2 dest"><a href="#" class="btn btn-primary">Book Now</a></div>
-	</div>
-</div> -->
-
-<div id="preload-view" class="text-center">
-<h1>${destFrom} <i class="fa fa-arrows-h" aria-hidden="true"></i> ${destTo}</h1>
-<p>We're fetching flight schedules</p>
-<p><i class="fa fa-circle-o-notch fa-3x fa-spin" aria-hidden="true"></i></p>
-<p>Please wait..</p>
+<div class="jumbotron text-center">
+  <h1><i class="fa fa-plane" aria-hidden="true"></i> GrabFlight</h1>
+<p>Simple flight ticket price visualizer for travellers</p>
+<p>
+	<span class="label label-default">Coming soon..</span>
+</p>
 </div>
 
-<div id="preload-error" class="text-center" style="display: none;">
-<p><i class="fa fa-meh-o fa-5x" aria-hidden="true"></i></p>
-<h3>Oops!</h3>
-<p>We're sorry. Please refresh the page</p>
-</div>
 
-<div class="panel panel-default panel-chart">
-	<div class="panel-heading">Flight Depart</div>
-	<div class="panel-chart-content">
-		<div id="chart-depart"></div>
-	</div>
-</div>
-<div class="panel panel-default panel-chart">
-	<div class="panel-heading">Flight Return</div>
-	<div class="panel-chart-content">
-		<div id="chart-return"></div>
-	</div>
-</div>
 
-<script type="text/javascript">
-var gFlight  	= '${flight}';
-var gDestFrom 	= '${destFrom}';
-var gDestTo 	= '${destTo}';
-var gDateFrom 	= '${dateFrom}';
-var gDateTo 	= '${dateTo}';
-var getDestinationsByGetUrl = "/api/"+ gDestFrom +"/"+ gDestTo +"/"+ gDateFrom +"/"+ gDateTo +"/"+ gFlight +".json";
-</script>
 
-	</@layout.myLayout>
+
+</@layout.myLayout>

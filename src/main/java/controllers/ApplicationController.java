@@ -42,8 +42,15 @@ public class ApplicationController {
 
   @Inject
   GrabAirAsiaService grabFlightService;
+  
+  public Result index() {
 
-  public Result index(@PathParam("flight") String flight, @PathParam("destFrom") String destFrom,
+    Result result = Results.html();
+
+    return result;
+  }
+
+  public Result indexWithData(@PathParam("flight") String flight, @PathParam("destFrom") String destFrom,
       @PathParam("destTo") String destTo, @PathParam("dateFrom") String dateFrom,
       @PathParam("dateTo") String dateTo) {
 
