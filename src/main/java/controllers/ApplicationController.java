@@ -55,7 +55,7 @@ public class ApplicationController {
       @PathParam("dateTo") String dateTo) {
 
     Result result = Results.html();
-    result.render("flight", flight);
+    result.render("flight", flight.toLowerCase());
     result.render("destFrom", destFrom.toUpperCase());
     result.render("destTo", destTo.toUpperCase());
     result.render("dateFrom", dateFrom);
