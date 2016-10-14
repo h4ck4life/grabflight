@@ -51,6 +51,9 @@ $.ajax({
                 lines: [{value: gDateFrom}]
             }
         },
+        transition: {
+            duration: 1000
+        },
     	data: {
             x: 'x',
             //xFormat: '%Y%m%d', // 'xFormat' can be used as custom format of 'x'
@@ -112,6 +115,9 @@ $.ajax({
             x: {
                 lines: [{value: gDateTo}]
             }
+        },
+        transition: {
+            duration: 1000
         },
     	data: {
             x: 'x',
