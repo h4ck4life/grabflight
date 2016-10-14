@@ -4,7 +4,7 @@ var returnPrice = [];
 var departTripDateTimeline = [];
 var returnTripDateTimeline = [];
 
-departurePrice.push('Departure');
+departurePrice.push('Depart');
 returnPrice.push('Return');
 departTripDateTimeline.push('x');
 returnTripDateTimeline.push('x');
@@ -15,12 +15,10 @@ $.ajax({
   url: getDestinationsByGetUrl,
   dataType: "json",
   success: function (response) {
-	console.log('Trips: ' + response.schedules.length);
     for (var index = 0; index < response.schedules.length; index++) {
     	  var element = response.schedules[index];
     	  // get departure price
     	  if(index === 0) {
-    		  console.log('Departure length: ' + element.departure.length)
     		  for (var i = 0; i < element.departure.length; i++) {
     			  departurePrice.push(element.departure[i].price.replace(/[^0-9\.]/g, ''));
         		  departTripDateTimeline.push(element.departure[i].date);
@@ -35,6 +33,9 @@ $.ajax({
     		  }
     	  }
 	}
+    
+    $('#preload-view').hide();
+    $('.panel-chart').fadeIn('5000');
     
     // ##### DEPARTURE #####
     var chartDepart = c3.generate({
@@ -145,8 +146,6 @@ $.ajax({
             }
         }
     });
-    
-    $('#preload-view').hide();
     
   },
   error: function(xhr, textStatus, errorThrown){

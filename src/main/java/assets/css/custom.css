@@ -9,3 +9,13 @@
   color: red;
 }
 
+.panel-chart {
+	padding: 10px;
+	display: none;
+}
+
+.dest {
+	width: 30%;
+	margin-right: 10px;
+}
+
