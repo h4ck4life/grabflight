@@ -136,6 +136,30 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- Minify JS files -->
+			<plugin>
+				<groupId>com.samaxes.maven</groupId>
+				<artifactId>minify-maven-plugin</artifactId>
+				<version>1.7.4</version>
+				<executions>
+					<execution>
+						<id>default-minify</id>
+						<configuration>
+							<webappSourceDir>${basedir}/src/main/java</webappSourceDir>
+							<jsSourceDir>assets/js</jsSourceDir>
+							<jsSourceIncludes>
+					            <jsSourceInclude>**/*.js</jsSourceInclude>
+					        </jsSourceIncludes>
+					        <!-- <jsSourceFiles>
+								<jsSourceFile>grabflight.js</jsSourceFile>
+							</jsSourceFiles> -->
+						</configuration>
+						<goals>
+							<goal>minify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 		<resources>
 			<resource>
