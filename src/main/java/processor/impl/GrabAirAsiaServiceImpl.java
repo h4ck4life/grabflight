@@ -58,6 +58,7 @@ public class GrabAirAsiaServiceImpl implements GrabAirAsiaService {
 
       // Get scheduleTimeRow
       Elements scheduleTimeRowEls = tripsEls.select("div.low-fare-cal-day");
+      
       if (scheduleTimeRowEls.size() > 0) {
         for (Element scheduleTimeRow : scheduleTimeRowEls) {
 
@@ -91,11 +92,12 @@ public class GrabAirAsiaServiceImpl implements GrabAirAsiaService {
             // linkToPurchase = "N/A";
           }
 
-          if (!date.equals("") && !price.equals("") && !linkToPurchase.equals("")) {
+          if (!date.equals("") && !price.equals("")) {
             flightSchedule.put("date", date);
             flightSchedule.put("price", price);
-            flightSchedule.put("linkToPurchase", airAsiaBaseURL + linkToPurchase);
-
+            if (!linkToPurchase.equals("")) {
+              flightSchedule.put("linkToPurchase", airAsiaBaseURL + linkToPurchase);
+            }
             flightSchedules.add(flightSchedule);
           }
 

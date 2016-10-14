@@ -26,7 +26,7 @@ $.ajax({
     	  }
     	  // get return price
     	  if(index === 1) {
-    		  console.log('Return length: ' + element.return.length);
+    		  //console.log('Return length: ' + element.return.length);
     		  for (var i = 0; i < element.return.length; i++) {
     			  returnPrice.push(element.return[i].price.replace(/[^0-9\.]/g, ''));
     			  returnTripDateTimeline.push(element.return[i].date);
