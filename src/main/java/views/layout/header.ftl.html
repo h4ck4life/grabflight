@@ -7,18 +7,23 @@
 				<span class="icon-bar"></span>
 			</button>
 			<a class="navbar-brand" href="/"><i class="fa fa-plane" aria-hidden="true"></i> GrabFlight</a>
-		</div>
-		<div class="navbar-collapse collapse">
-			<ul class="nav navbar-nav">
-				<!-- <li class="active"><a href="/">Main</a></li> -->
-				<!-- <li class="active"><a href="#">Flight tickets price visualizer</a></li> -->
-			</ul>
 			<ul class="nav navbar-top-links navbar-right">
+				<#if flight?? && flight == "airasia">
+					<li><img alt="" src="/assets/img/airasia.png" style="width: 60px;margin-top: 7px;margin-right:10px;"></li>
+				</#if>
+			</ul>
+		</div>
+		<!-- <div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="/">Main</a></li>
+				<li class="active"><a href="#">Flight tickets price visualizer</a></li>
+			</ul>
+			<ul class="nav navbar-top-links navbar-right pull-right">
 			<#if flight?? && flight == "airasia">
-				<li><img alt="" src="/assets/img/airasia.png" style="width: 60px;margin-top: 7px;"></li>
+				<li class="pull-left"><img alt="" src="/assets/img/airasia.png" style="width: 60px;margin-top: 7px;"></li>
 			</#if>
 			</ul>
-		</div>
+		</div> -->
 		<!--/.navbar-collapse -->
 	</div>
 </div>
