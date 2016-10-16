@@ -13,6 +13,8 @@ $.ajax({
   type: "GET",
   //url: "/KUL/MEL/2016-10-01/2016-10-31/airasia.json",
   url: getDestinationsByGetUrl,
+  username: 'Tc7Za7YcTsQNDQqZ',
+  password: 'N8Zyj3etybscu6Wv11',
   dataType: "json",
   success: function (response) {
     for (var index = 0; index < response.schedules.length; index++) {
@@ -61,7 +63,13 @@ $.ajax({
             	departTripDateTimeline,
                 departurePrice
             ],
-            type: 'spline'
+            type: 'spline',
+            onclick: function (d, element) {
+            	//console.log(d);
+            },
+            selection: {
+                enabled: true
+            }
         },
         tooltip: {
             format: {
@@ -126,7 +134,13 @@ $.ajax({
             	returnTripDateTimeline,
             	returnPrice
             ],
-            type: 'spline'
+            type: 'spline',
+            onclick: function (d, element) {
+            	//console.log(d);
+            },
+            selection: {
+                enabled: true
+            }
         },
         tooltip: {
             format: {

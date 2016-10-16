@@ -24,7 +24,9 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import ninja.BasicAuthFilter;
 import ninja.Context;
+import ninja.FilterWith;
 import ninja.Result;
 import ninja.Results;
 import ninja.cache.NinjaCache;
@@ -43,6 +45,11 @@ public class ApplicationController {
   @Inject
   GrabAirAsiaService grabFlightService;
   
+  /**
+   * Show homepage
+   * 
+   * @return
+   */
   public Result index() {
 
     Result result = Results.html();
@@ -50,6 +57,16 @@ public class ApplicationController {
     return result;
   }
 
+  /**
+   * Flight schedule search results page with C3.js spline chart
+   * 
+   * @param flight
+   * @param destFrom
+   * @param destTo
+   * @param dateFrom
+   * @param dateTo
+   * @return
+   */
   public Result indexWithData(@PathParam("flight") String flight, @PathParam("destFrom") String destFrom,
       @PathParam("destTo") String destTo, @PathParam("dateFrom") String dateFrom,
       @PathParam("dateTo") String dateTo) {
@@ -63,7 +80,22 @@ public class ApplicationController {
 
     return result;
   }
+  
 
+  /**
+   * API to get monthly flight schedules
+   * 
+   * @param destFrom Flight origin
+   * @param destTo Flight destination
+   * @param dateFrom Depart date
+   * @param dateTo Return date
+   * @param flight Airline name
+   * @param ctx
+   * @return
+   * @throws IOException
+   * @throws JSONException
+   */
+  @FilterWith(BasicAuthFilter.class)
   public Result getFlightMonthly(@PathParam("destFrom") String destFrom,
       @PathParam("destTo") String destTo, @PathParam("dateFrom") String dateFrom,
       @PathParam("dateTo") String dateTo, @PathParam("flight") String flight, Context ctx)

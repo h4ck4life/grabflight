@@ -17,10 +17,10 @@
 package conf;
 
 
+import controllers.ApplicationController;
 import ninja.AssetsController;
 import ninja.Router;
 import ninja.application.ApplicationRoutes;
-import controllers.ApplicationController;
 
 public class Routes implements ApplicationRoutes {
 
@@ -32,7 +32,6 @@ public class Routes implements ApplicationRoutes {
         router.GET().route("/hello_world.json").with(ApplicationController.class, "helloWorldJson");
         router.GET().route("/api/{destFrom}/{destTo}/{dateFrom}/{dateTo}/{flight}.json").with(ApplicationController.class, "getFlightMonthly");
         
- 
         ///////////////////////////////////////////////////////////////////////
         // Assets (pictures / javascript)
         ///////////////////////////////////////////////////////////////////////    
