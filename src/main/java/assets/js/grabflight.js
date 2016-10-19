@@ -17,6 +17,13 @@ $.ajax({
   password: 'N8Zyj3etybscu6Wv',
   dataType: "json",
   success: function (response) {
+	  
+	if(response.schedules.length < 1) {
+		$('#preload-view').hide();
+		$('#preload-noflight').show();
+		return false;
+	}
+	  
     for (var index = 0; index < response.schedules.length; index++) {
     	  var element = response.schedules[index];
     	  // get departure price
