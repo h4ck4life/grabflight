@@ -24,20 +24,18 @@ import processor.impl.GrabAirAsiaServiceImpl;
 @Singleton
 public class Module extends AbstractModule {
 
-
   protected void configure() {
 
     // bind your injections here!
     bind(GrabAirAsiaService.class).to(GrabAirAsiaServiceImpl.class);
-    
-    
+
     // bind a UsernamePasswordValidator
     bind(UsernamePasswordValidator.class).toInstance(new UsernamePasswordValidator() {
 
-        @Override
-        public boolean validateCredentials(String username, String password) {
-            return "Tc7Za7YcTsQNDQqZ".equals(username) && "N8Zyj3etybscu6Wv".equals(password);
-        }
+      @Override
+      public boolean validateCredentials(String username, String password) {
+        return "Tc7Za7YcTsQNDQqZ".equals(username) && "N8Zyj3etybscu6Wv".equals(password);
+      }
     });
 
   }

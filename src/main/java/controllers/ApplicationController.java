@@ -124,8 +124,8 @@ public class ApplicationController {
 
         // if got schedules then only cache, otherwise dont!
         if (flightResults.getJSONArray("schedules").length() > 0
-            || flightResults.getJSONArray("schedules").getJSONArray(0).length() > 0
-            || flightResults.getJSONArray("schedules").getJSONArray(1).length() > 0) {
+            && flightResults.getJSONArray("schedules").getJSONArray(0).length() > 0
+            && flightResults.getJSONArray("schedules").getJSONArray(1).length() > 0) {
           ninjaCache.set(destFrom + destTo + dateFrom + dateTo, flightResults.toString());
         }
 

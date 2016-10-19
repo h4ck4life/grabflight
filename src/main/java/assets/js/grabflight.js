@@ -14,7 +14,7 @@ $.ajax({
   //url: "/KUL/MEL/2016-10-01/2016-10-31/airasia.json",
   url: getDestinationsByGetUrl,
   username: 'Tc7Za7YcTsQNDQqZ',
-  password: 'N8Zyj3etybscu6Wv11',
+  password: 'N8Zyj3etybscu6Wv',
   dataType: "json",
   success: function (response) {
     for (var index = 0; index < response.schedules.length; index++) {
