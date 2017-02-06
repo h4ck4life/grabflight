@@ -50,7 +50,7 @@ public class ApplicationController {
    * 
    * @return
    */
-  public Result index() {
+  public Result index(@PathParam("icnumber") String icnumber) {
 
     Result result = Results.html();
 
