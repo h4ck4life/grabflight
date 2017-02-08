@@ -33,128 +33,139 @@ import ninja.cache.NinjaCache;
 import ninja.params.PathParam;
 import processor.GrabAirAsiaService;
 
-
 @Singleton
 public class ApplicationController {
 
-  final static Logger logger = LoggerFactory.getLogger("com.filavents.grabflight");
+    final static Logger logger =
+            LoggerFactory.getLogger("com.filavents.grabflight");
 
-  @Inject
-  NinjaCache ninjaCache;
+    @Inject
+    NinjaCache ninjaCache;
 
-  @Inject
-  GrabAirAsiaService grabFlightService;
-  
-  /**
-   * Show homepage
-   * 
-   * @return
-   */
-  public Result index(@PathParam("icnumber") String icnumber) {
+    @Inject
+    GrabAirAsiaService grabFlightService;
 
-    Result result = Results.html();
+    /**
+     * Show homepage
+     * 
+     * @return
+     */
+    public Result index(@PathParam("icnumber") String icnumber) {
 
-    return result;
-  }
+        Result result = Results.html();
 
-  /**
-   * Flight schedule search results page with C3.js spline chart
-   * 
-   * @param flight
-   * @param destFrom
-   * @param destTo
-   * @param dateFrom
-   * @param dateTo
-   * @return
-   */
-  public Result indexWithData(@PathParam("flight") String flight, @PathParam("destFrom") String destFrom,
-      @PathParam("destTo") String destTo, @PathParam("dateFrom") String dateFrom,
-      @PathParam("dateTo") String dateTo) {
-
-    Result result = Results.html();
-    result.render("flight", flight.toLowerCase());
-    result.render("destFrom", destFrom.toUpperCase());
-    result.render("destTo", destTo.toUpperCase());
-    result.render("dateFrom", dateFrom);
-    result.render("dateTo", dateTo);
-
-    return result;
-  }
-  
-
-  /**
-   * API to get monthly flight schedules
-   * 
-   * @param destFrom Flight origin
-   * @param destTo Flight destination
-   * @param dateFrom Depart date
-   * @param dateTo Return date
-   * @param flight Airline name
-   * @param ctx
-   * @return
-   * @throws IOException
-   * @throws JSONException
-   */
-  @FilterWith(BasicAuthFilter.class)
-  public Result getFlightMonthly(@PathParam("destFrom") String destFrom,
-      @PathParam("destTo") String destTo, @PathParam("dateFrom") String dateFrom,
-      @PathParam("dateTo") String dateTo, @PathParam("flight") String flight, Context ctx)
-      throws IOException, JSONException {
-    
-    Result result = Results.text();
-    JSONObject resp = new JSONObject();
-    
-    // Verify API caller origin
-    /*if (!ctx.getHostname().equalsIgnoreCase("localhost:8080")
-        && !ctx.getHostname().equalsIgnoreCase("grabflight.filavents.com")) {
-      logger.error(ctx.getRequestPath() + " - not authorized api call from: " + ctx.getHostname());
-      resp.put("error", "Not authorized. Please contact alifaziz@gmail.com if you insist");
-      result.status(500);
-      result.render(resp);
-      return result;
-    }*/
-
-    if (flight.equalsIgnoreCase("airasia")) {
-
-      String cacheResponse = (String) ninjaCache.get(destFrom + destTo + dateFrom + dateTo);
-      if (null == cacheResponse) {
-
-        JSONObject flightResults =
-            grabFlightService.getSchedulesbyMonthRange(destFrom, destTo, dateFrom, dateTo);
-
-        // if got schedules then only cache, otherwise dont!
-        if (flightResults.getJSONArray("schedules").length() > 0
-            && flightResults.getJSONArray("schedules").getJSONArray(0).length() > 0
-            && flightResults.getJSONArray("schedules").getJSONArray(1).length() > 0) {
-          ninjaCache.set(destFrom + destTo + dateFrom + dateTo, flightResults.toString());
-        }
-
-        logger.debug(ctx.getRequestPath() + " - " + flightResults.toString());
-
-        result.render(flightResults);
-
-      } else {
-
-        result.render(cacheResponse);
-
-      }
-    } else {
-      logger.error(ctx.getRequestPath() + " - flight type not recognized");
-      resp.put("error", "flight type not recognized");
-      result.status(500);
-      result.render(resp);
+        return result;
     }
 
-    return result;
-  }
+    /**
+     * Flight schedule search results page with C3.js spline chart
+     * 
+     * @param flight
+     * @param destFrom
+     * @param destTo
+     * @param dateFrom
+     * @param dateTo
+     * @return
+     */
+    public Result indexWithData(@PathParam("flight") String flight,
+                                @PathParam("destFrom") String destFrom,
+                                @PathParam("destTo") String destTo,
+                                @PathParam("dateFrom") String dateFrom,
+                                @PathParam("dateTo") String dateTo) {
 
-  public Result helloWorldJson() {
-    SimplePojo simplePojo = new SimplePojo();
-    simplePojo.content = "Hello World! Hello Json!";
-    return Results.json().render(simplePojo);
-  }
+        Result result = Results.html();
+        result.render("flight", flight.toLowerCase());
+        result.render("destFrom", destFrom.toUpperCase());
+        result.render("destTo", destTo.toUpperCase());
+        result.render("dateFrom", dateFrom);
+        result.render("dateTo", dateTo);
 
-  public static class SimplePojo {
-    public String content;
-  }
+        return result;
+    }
+
+    /**
+     * API to get monthly flight schedules
+     * 
+     * @param destFrom Flight origin
+     * @param destTo Flight destination
+     * @param dateFrom Depart date
+     * @param dateTo Return date
+     * @param flight Airline name
+     * @param ctx
+     * @return
+     * @throws IOException
+     * @throws JSONException
+     */
+    @FilterWith(BasicAuthFilter.class)
+    public Result getFlightMonthly(@PathParam("destFrom") String destFrom,
+                                   @PathParam("destTo") String destTo,
+                                   @PathParam("dateFrom") String dateFrom,
+                                   @PathParam("dateTo") String dateTo,
+                                   @PathParam("flight") String flight,
+                                   Context ctx)
+            throws IOException, JSONException {
+
+        Result result = Results.text();
+        JSONObject resp = new JSONObject();
+
+        // Verify API caller origin
+        /*
+         * if (!ctx.getHostname().equalsIgnoreCase("localhost:8080") &&
+         * !ctx.getHostname().equalsIgnoreCase("grabflight.filavents.com")) {
+         * logger.error(ctx.getRequestPath() + " - not authorized api call from: " +
+         * ctx.getHostname()); resp.put("error",
+         * "Not authorized. Please contact alifaziz@gmail.com if you insist"); result.status(500);
+         * result.render(resp); return result; }
+         */
+
+        if (flight.equalsIgnoreCase("airasia")) {
+
+            String cacheResponse = (String) ninjaCache.get(destFrom + destTo
+                    + dateFrom + dateTo);
+            if (null == cacheResponse) {
+
+                JSONObject flightResults =
+                        grabFlightService.getSchedulesbyMonthRange(destFrom,
+                                                                   destTo, dateFrom, dateTo);
+
+                // if got schedules then only cache, otherwise dont!
+                if (flightResults.getJSONArray("schedules").length() > 0
+                        && flightResults.getJSONArray("schedules")
+                                        .getJSONArray(0).length() > 0
+                        && flightResults.getJSONArray("schedules")
+                                        .getJSONArray(1).length() > 0) {
+                    ninjaCache.set(destFrom + destTo + dateFrom + dateTo,
+                                   flightResults.toString());
+                }
+
+                logger.debug(ctx.getRequestPath() + " - "
+                        + flightResults.toString());
+
+                result.render(flightResults);
+
+            } else {
+
+                result.render(cacheResponse);
+
+            }
+        } else {
+            logger.error(ctx.getRequestPath()
+                    + " - flight type not recognized");
+            resp.put("error", "flight type not recognized");
+            result.status(500);
+            result.render(resp);
+        }
+
+        return result;
+    }
+
+    public Result helloWorldJson() {
+        SimplePojo simplePojo = new SimplePojo();
+        simplePojo.content = "Hello World! Hello Json!";
+        return Results.json().render(simplePojo);
+    }
+
+    public static class SimplePojo {
+        public String content;
+    }
 }
